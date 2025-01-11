@@ -1,144 +1,133 @@
 ![Kivy](https://img.shields.io/badge/Built%20in-Kivy-purple) ![Python](https://img.shields.io/badge/Powered%20by-Python-yellow) ![Arch](https://img.shields.io/badge/Arch-ARM64-blue) ![OS](https://img.shields.io/badge/OS-Raspbian-red)
 
 # obiPiDash
-A python project to pull vehicle information from a bluetooth OBD-II adapter and output it to a nice GUI on any touchscreen display.
-## Features:
+A Python project to pull vehicle information from a Bluetooth OBD-II adapter and output it to a nice GUI on any touchscreen display.
+
+## Features
 - Coolant Temp, Intake Temp, Battery Voltage, STFT, LTFT, Throttle Pos, Engine Load, Spark Advance, Gear Indicator, RPM (w/ MAX), Speed (w/ MAX)
 - Adjustable Warning thresholds for Coolant Temp, Intake Temp, STFT, LTFT, RPM and Speed
 - DTC Read and Clear Function
 - Selectable C/F MPH/KPH
 - Brightness Control
 
-## Screenshots & Photos:
-![Alt text](Screenshots/PassView.jpg?raw=true "Title")
-![Alt text](Screenshots/TopDown.jpg?raw=true "Title")
-![Alt text](Screenshots/Gauges1.png?raw=true "Title")
-![Alt text](Screenshots/Gauges2.png?raw=true "Title")
-![Alt text](Screenshots/Gauges3.png?raw=true "Title")
-![Alt text](Screenshots/Gear.png?raw=true "Title")
-![Alt text](Screenshots/MAX.png?raw=true "Title")
-![Alt text](Screenshots/DTCs.png?raw=true "Title")
-![Alt text](Screenshots/Settings.png?raw=true "Title")
+## Screenshots & Photos
+Coming soon...
 
-## Hardware and Setup I used:
-- Raspberry Pi 3B+ (Tested on Pi Zero 2W & Pi 4 2GB)
-- Raspberry Pi OS Bullseye 32-bit
-- Python 3.9.2
-- WaveShare 4.3" DSI Touchscreen Display
+## Hardware and Setup Used
+- Raspberry Pi 5 (8GB RAM)
+- Raspberry Pi OS (64-bit) - Bookworm
+- Python 3.11.2
+- Display (TBD)
 
-## Install Kivy:
+## Installation
 
-`sudo apt update`
-
-`sudo apt install libfreetype6-dev libgl1-mesa-dev libgles2-mesa-dev libdrm-dev libgbm-dev libudev-dev libasound2-dev liblzma-dev libjpeg-dev libtiff-dev libwebp-dev git build-essential -y`
-
-`sudo apt install gir1.2-ibus-1.0 libdbus-1-dev libegl1-mesa-dev libibus-1.0-5 libibus-1.0-dev libice-dev libsm-dev libsndio-dev libwayland-bin libwayland-dev libxi-dev libxinerama-dev libxkbcommon-dev libxrandr-dev libxss-dev libxt-dev libxv-dev x11proto-randr-dev x11proto-scrnsaver-dev x11proto-video-dev x11proto-xinerama-dev -y`
-
-#### Install SDL2:
-- `wget https://libsdl.org/release/SDL2-2.0.10.tar.gz`
-- `tar -zxvf SDL2-2.0.10.tar.gz`
-- `pushd SDL2-2.0.10`
-- `./configure --enable-video-kmsdrm --disable-video-opengl --disable-video-x11 --disable-video-rpi`
-- `make -j$(nproc)`
-- `sudo make install`
-- `popd`
-
-#### Install SDL2_image:
-- `wget https://libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.tar.gz`
-- `tar -zxvf SDL2_image-2.0.5.tar.gz`
-- `pushd SDL2_image-2.0.5`
-- `./configure`
-- `make -j$(nproc)`
-- `sudo make install`
-- `popd`
-
-#### Install SDL2_mixer:
-- `wget https://libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.4.tar.gz`
-- `tar -zxvf SDL2_mixer-2.0.4.tar.gz`
-- `pushd SDL2_mixer-2.0.4`
-- `./configure`
-- `make -j$(nproc)`
-- `sudo make install`
-- `popd`
-
-#### Install SDL2_ttf:
-- `wget https://libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.15.tar.gz`
-- `tar -zxvf SDL2_ttf-2.0.15.tar.gz`
-- `pushd SDL2_ttf-2.0.15`
-- `./configure`
-- `make -j$(nproc)`
-- `sudo make install`
-- `popd`
-
-#### Make sure the dynamic libraries cache is updated:
-- `sudo ldconfig -v`
-
-#### Install the dependencies:
-- `sudo apt update`
-- `sudo apt upgrade`
-- `sudo apt install pkg-config libgl1-mesa-dev libgles2-mesa-dev python3-setuptools libgstreamer1.0-dev git gstreamer1.0-plugins-{bad,base,good,ugly} gstreamer1.0-{omx,alsa} libmtdev-dev xclip xsel libjpeg-dev -y`
-
-#### Install pip3:
-- `sudo apt install python3-pip`
-
-
-#### Install pip dependencies:
-- `pip3 install --upgrade pip setuptools`
-- `pip3 install --upgrade Cython==0.29.19 pillow`
-
-#### Install Kivy:
-- `pip3 install kivy`
-
-#### Copy code and data folders to /home/pi/obdPiDash
-- `git clone https://github.com/charliehoward/obdPiDash.git`
-
-#### Copy all scripts to the home folder:
-- `cp obdPiDash/*.sh ./`
-
-#### Navigate to obdPiDash directory and run main.py to create the config.ini file
-- `cd obdPiDash`
-- `python3 main.py`
-
-#### Configure for use with touch screen:
-
-Edit /.kivy/config.ini by:
-- `cd`
-- `sudo nano .kivy/config.ini`
-
-Remove mouse cursor:
-- Replace the line `show_cursor = 1` with `show_cursor = 0`
-
-Change [input] to:
-````
-mouse = mouse
-mtdev_%(name)s = probesysfs,provider=mtdev
-hid_%(name)s = probesysfs,provider=hidinput
-````
-
-## Other Misc Setup (not needed Raspberry Pi Zero 2 W/Pi 4):
-
-In raspi-config -> Advanced Options -> Memory Split
-- Change value to 512MB
-
-#### Install Python OBD:
-https://python-obd.readthedocs.io/en/latest/#installation
-- `pip3 install obd`
-
-#### Install RPi.GPIO, Lite does not come with it..
-- `sudo apt install python3-rpi.gpio`
-
-#### Bluetooth Setup:
-- `sudo bluetoothctl`
-- `agent on`
-- `default-agent`
-- `scan on`
-- `pair xx:xx:xx:xx:xx:xx` <- Your BT MAC here
-- `connect xx:xx:xx:xx:xx:xx`
-- `trust xx:xx:xx:xx:xx:xx`
-
-#### Start on Boot:
-- `sudo nano /etc/systemd/system/obdPiDash.service`
+### 1. Install Required Packages
+```bash
+sudo apt update
+sudo apt install libfreetype6-dev libgl1-mesa-dev libgles2-mesa-dev libdrm-dev libgbm-dev libudev-dev libasound2-dev liblzma-dev libjpeg-dev libtiff-dev libwebp-dev git build-essential -y
+sudo apt install gir1.2-ibus-1.0 libdbus-1-dev libegl1-mesa-dev libibus-1.0-5 libibus-1.0-dev libice-dev libsm-dev libsndio-dev libwayland-bin libwayland-dev libxi-dev libxinerama-dev libxkbcommon-dev libxrandr-dev libxss-dev libxt-dev libxv-dev x11proto-randr-dev x11proto-scrnsaver-dev x11proto-video-dev x11proto-xinerama-dev -y
+sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-vaapi pkg-config python3-setuptools libgstreamer1.0-dev libmtdev-dev xclip xsel libjpeg-dev -y
+sudo apt install python3-pip
 ```
+
+### 2. Install SDL3 and Related Libraries
+#### SDL
+```bash
+git clone https://github.com/libsdl-org/SDL.git
+sudo mkdir -p /usr/local/lib/pkgconfig
+sudo chown $USER:$USER /usr/local/lib/pkgconfig
+cd SDL
+cmake -S . -B build && cmake --build build --parallel $(nproc)
+sudo cmake --install build
+cd ..
+```
+
+#### SDL_image
+```bash
+git clone https://github.com/libsdl-org/SDL_image.git
+cd SDL_image
+./external/download.sh
+cmake -S . -B build -DSDLIMAGE_VENDORED=ON
+cmake --build build --parallel $(nproc)
+sudo cmake --install build
+cd ..
+```
+
+#### SDL_mixer
+```bash
+git clone https://github.com/libsdl-org/SDL_mixer.git
+cd SDL_mixer
+./external/download.sh
+cmake -S . -B build -DSDLMIXER_VENDORED=ON
+cmake --build build --parallel $(nproc)
+sudo cmake --install build
+cd ..
+```
+
+#### SDL_ttf
+```bash
+git clone https://github.com/libsdl-org/SDL_ttf.git
+cd SDL_ttf
+./external/download.sh
+cmake -S . -B build -DSDLTTF_VENDORED=ON
+cmake --build build --parallel $(nproc)
+sudo cmake --install build
+cd ..
+```
+
+### 3. Update System and Install Python OBD
+```bash
+sudo apt update
+sudo apt upgrade -y
+pip3 install obd
+```
+
+### 4. Set Up Virtual Environment
+```bash
+git clone https://github.com/charliehoward/obdPiDash.git
+cd obdPiDash
+python3 -m venv venv
+source ./venv/bin/activate
+pip install --upgrade pip setuptools Cython kivy
+python main.py
+```
+
+### 5. Configure Touchscreen
+Edit the Kivy config file:
+```bash
+sudo nano ~/.kivy/config.ini
+```
+Modify the following lines:
+- Remove mouse cursor:
+  ```ini
+  show_cursor = 0
+  ```
+- Adjust input settings:
+  ```ini
+  [input]
+  mouse = mouse
+  mtdev_%(name)s = probesysfs,provider=mtdev
+  hid_%(name)s = probesysfs,provider=hidinput
+  ```
+
+### 6. Configure Bluetooth
+```bash
+sudo bluetoothctl
+agent on
+default-agent
+scan on
+pair xx:xx:xx:xx:xx:xx  # Replace with your BT MAC
+connect xx:xx:xx:xx:xx:xx
+trust xx:xx:xx:xx:xx:xx
+```
+
+### 7. Set Up Startup Service
+Create a service file:
+```bash
+sudo nano /etc/systemd/system/obdPiDash.service
+```
+Add the following content:
+```ini
 [Unit]
 Description=Start OBDPi
 
@@ -153,50 +142,46 @@ User=pi
 [Install]
 WantedBy=multi-user.target
 ```
-Make sure to change your username if it's not pi
-Ctrl+x to Save
-
-Now, enter the line:
-`sudo systemctl enable obdPiDash.service`
-
-Then make the launcher executable:
-`sudo chmod a+x ./obdPiLauncher.sh`
-
-Reboot for final test
-
-## Configure Variables:
-Modify in main.py 
-- developermode 0=Off 1=On <- 0 for in vehicle use, 1 for development/demo use
-- externalshutdown <- leave as 0 for now, in development
-- AccelEnabled <- leave as 0 for now, Accelerometer in development
-- OBDEnabled <- 1 if you are using OBDII features, leave it ON
-- onPi <- its default 1, but will change to 0 in code if detected not running on Pi (for development on PC)
-- autobrightness < 0 will keep brightness same as last boot, 1 allows custom time if using RTC, 2 will always dim on boot
-- Make the update script executable:
-`sudo chmod a+x ./obdPiUpdate.sh`
-
-## OPTIONAL Clean up boot (Remove all boot text and logos):
-- Add the following to the bottom of /boot/config.txt
+Enable the service and make the launcher executable:
+```bash
+sudo systemctl enable obdPiDash.service
+sudo chmod a+x ./obdPiLauncher.sh
 ```
+
+### 8. Optional: Clean Up Boot
+To remove boot text and logos, edit `/boot/config.txt`:
+```bash
+sudo nano /boot/config.txt
+```
+Add:
+```ini
 disable_splash=1
 boot_delay=0
 ```
-- /boot/cmdline.txt - change console=tty1 to console=tty3, add the following to the end of the line
+Modify `/boot/cmdline.txt`:
+```bash
+sudo nano /boot/cmdline.txt
 ```
-splash quiet logo.nologo vt.global_cursor_default=0 consoleblank=0
+Change:
+```txt
+console=tty1
 ```
-- In /etc/pam.d/login comment out the following lines
+To:
+```txt
+console=tty3 splash quiet logo.nologo vt.global_cursor_default=0 consoleblank=0
 ```
-session    optional   pam_lastlog.so
-session    optional   pam_motd.so motd=/run/motd.dynamic
-session    optional   pam_motd.so noupdate
+Comment out the following lines in `/etc/pam.d/login`:
+```txt
+# session    optional   pam_lastlog.so
+# session    optional   pam_motd.so motd=/run/motd.dynamic
+# session    optional   pam_motd.so noupdate
 ```
-- Run `touch ~/.hushlogin`
-- Remove everything from /etc/motd
-- Make blackoutTerminal executable:
-- `sudo chmod a+x ./blackoutTerminal.sh`
-- Make this script run at startup: `sudo crontab -e` and add the following to the bottom:
+Suppress login messages:
+```bash
+run touch ~/.hushlogin
 ```
-@reboot /bin/sh /home/pi/blackoutTerminal.sh
-```
-Make sure to change your username if it's not pi
+
+### 9. Reboot and Test
+Restart your system to finalize setup:
+```bash
+sudo reboot
